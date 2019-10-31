@@ -1,107 +1,64 @@
 <?php 
 
  //require '../classe.php';
- require '../connexion.php';
+   require ('../connexion.php');
+   include_once ('../class/classe.php');
 
- /*class AJOUT_PATIENT extends PATIENT
- {
-        private $groupe_sg;
-        private $poids;
-        private $taille;
-        private $tension;
+$Npatient = new Patient;
 
-     function __construct($id_patient, $prenom, $nom, $numero, $adresse)
-     {
-        
-     }
- }
- 
- class DOSSIER_PATIENT extends PATIENT
- {
-
-        private $date_consultat;
-        private $objet_consulta;
-        private $precription;
-        private $statut_consulta;
-     
-     function __construct($consultation, $medecin_specialiste, $groupe_sg, $taille, $poids, $tension, $date_rv, $heure_rv, $tatut)
-     {
-        $this->date_consultat = $connexion;
-        
-     }
- }
-*/
-
-//if ($_SERVER['REQUEST_METHOD'] == 'POST') 
- //{
- $nom = $prenom = $age = $numero = $medecin_rattache = $objet_consultation = $adresse = $groupe_sg = $poids = $taille = $tension = $date_ajout = $date_rv = $heure_rv = $statut = "";
- if (isset($_POST['envoyer'])) 
- {
-    $nom= $_POST['nom'];
-    $prenom= $_POST['prenom'];
-    $age= $_POST['age'];
-    $numero= $_POST['numero'];
-    $medecin_rattache = $_POST['medecin_rattache'];
-    $objet_consultation = $_POST['objet_consultation'];
-    $date_ajout= $_POST['date_ajout'];
-    $date_rv = $_POST['date_rv'];
-    $heure_rv = $_POST['heure_rv'];
-
-    $adresse = (!empty($_POST['adresse'])) ? $_POST['adresse']: "---" ;
-    $groupe_sg = (!empty($_POST['groupe_sg'])) ? $_POST['groupe_sg']: "---" ;
-    $poids = (!empty($_POST['poids'])) ? $_POST['poids']: "---" ;
-    $taille = (!empty($_POST['taille'])) ? $_POST['taille']: "---" ;
-    $tension = (!empty($_POST['tension'])) ? $_POST['tension']: "---" ;
-    $statut = (!empty($_POST['statut'])) ? $_POST['statut']: "---" ;
-/*
-    if (!empty($_POST['adresse'])) 
+if (!empty($_POST['prenom']) && !empty($_POST['nom'])) 
     {
-       $adresse = $_POST['adresse'];
-    }
-    if (!empty($_POST['groupe_sg'])) 
-    {
-        $groupe_sg = $_POST['groupe_sg'];
-    }
-    if (!empty($_POST['poids'])) 
-    {
-        $poids = $_POST['poids'];
-    }
-    if (!empty($_POST['taille'])) 
-    {
-        $taille = $_POST['taille'];
-    }
-    if (!empty($_POST['tension'])) 
-    {
-        $tension = $_POST['tension'];
-    }
-    if (!empty($_POST['statut'])) 
-    {
-        $statut = $_POST['statut'];
-    }
-*/
- $sql = $bdd->prepare('insert into patient (nom, prenom, age, numero, adresse, date_ajout, groupe_sg, poids, taille, tension, objet_consultation, medecin_rattache, date_rv, heure_rv, statut) Values (:nom, :prenom, :age, :numero, :adresse, :date_ajout, :groupe_sg, :poids, :taille, :tension, :objet_consultation, :medecin_rattache, :date_rv, :heure_rv, :statut)');
+    
+        $Npatient->set_prenom($_POST['prenom']);
+        $Npatient->set_nom($_POST['nom']);
+        $Npatient->set_age($_POST['age']);
+        $Npatient->set_numero($_POST['numero']);
+        $Npatient->set_adresse($_POST['adresse']);
+        $Npatient->set_dateAjout($_POST['date_ajout']);
+        $Npatient->set_objetConsultation($_POST['objet_consultation']);
+        $Npatient->set_medecinRattache($_POST['medecin_rattache']);
+        $Npatient->set_groupeSg($_POST['groupe_sg']);
+        $Npatient->set_poids($_POST['poids']);
+        $Npatient->set_taille($_POST['taille']);
+        $Npatient->set_tension($_POST['tension']);
+        //$Npatient->set_dateRv($_POST['date_rv']);
+        //$Npatient->set_heureRv($_POST['heure_rv']);
 
- $sql -> bindparam(':nom', $nom);
- $sql -> bindparam(':prenom', $prenom);
- $sql -> bindparam(':age', $age);
- $sql -> bindparam(':numero', $numero);
- $sql -> bindparam(':adresse', $adresse);
- $sql -> bindparam(':date_ajout', $date_ajout);
- $sql -> bindparam(':groupe_sg', $groupe_sg);
- $sql -> bindparam(':poids', $poids);
- $sql -> bindparam(':taille', $taille);
- $sql -> bindparam(':tension', $tension);
- $sql -> bindparam(':objet_consultation', $objet_consultation);
- $sql -> bindparam(':medecin_rattache', $medecin_rattache);
- $sql -> bindparam(':date_rv', $date_rv);
- $sql -> bindparam(':heure_rv', $heure_rv);
- $sql -> bindparam(':statut', $statut);
+        //echo 'Bonjour' . $Npatient->get_prenom();
 
- $sql->execute();
+        $prenom = $Npatient->get_prenom();
+        $nom = $Npatient->get_nom();
+        $age = $Npatient->get_age();
+        $numero = $Npatient->get_numero();
+        $adresse = $Npatient->get_adresse();
+        $dateAjout = $Npatient->get_dateAjout();
+        $objetConsultation = $Npatient->get_objetConsultation();
+        $medecinRattache = $Npatient->get_medecinRattache();
+        $groupeSg = $Npatient->get_groupeSg();
+        $poids = $Npatient->get_poids();
+        $taille= $Npatient->get_taille();
+        $tension = $Npatient->get_tension();
+        //$dateRv= $Npatient->get_dateRv();
+        //$heureRv = $Npatient->get_heureRv();
 
- //echo "Nouveau patient ajouter avec succes";
+    $requete = $bdd->prepare('INSERT into patient (nom, prenom, age, numero, adresse, date_ajout, objet_consultation, medecin_rattache, groupe_sg, poids, taille, tension) values ( :nom, :prenom, :age, :numero, :adresse, :dateAjout, :objetConsultation, :medecinRattache, :groupeSg, :poids, :taille, :tension)');
 
-//}
+    $requete->bindparam(':nom', $nom);
+    $requete->bindparam(':prenom', $prenom);
+    $requete->bindparam(':age', $age);
+    $requete->bindparam(':numero', $numero);
+    $requete->bindparam(':adresse', $adresse);
+    $requete->bindparam(':dateAjout', $dateAjout);
+    $requete->bindparam(':objetConsultation', $objetConsultation);
+    $requete->bindparam(':medecinRattache', $medecinRattache);
+    $requete->bindparam(':groupeSg', $groupeSg);
+    $requete->bindparam(':poids', $poids);
+    $requete->bindparam(':taille', $taille);
+    $requete->bindparam(':tension', $tension);
+    //$requete->bindparam(':dateRv', $dateRv);
+    //$requete->bindparam(':heureRv', $heureRv);
+
+    $requete->execute();
 
 }
 
@@ -117,7 +74,7 @@
 ?>
 
 <!DOCTYPE html>
-</html>
+<html>
     <head>
         <meta charset="utf-8">
         <title>Ajout de nouveau patient</title>
@@ -135,44 +92,39 @@
             <form action="" method="POST">
             <div id="contenu">
             <div class="col">
-                <label for="prenom">Prenom</label><br><input type="text" name="prenom" id="prenom" required="" autofocus=""><br>
-                <label for="nom">Nom</label><br><input type="text" name="nom" id="nom" required=""><br>
-                <label for="age">Ages</label><br><input type="number" name="age" id="age" required=""><br>
-                <label for="numero">Numero</label><br><input onblur="//validerNom(this.value)" type="tel" name="numero" id="numero" required=""><br>
-                <label for="adresse">Adresse</label><br><input type="text" name="adresse" id="adresse" required=""><br>
-                <label for="dateAjout">Date Ajout</label><br><input class="color" type="date" name="date_ajout" disabled="disabled" value="<?php echo $date= date('Y-m-d');?>"><br>
+                <label for="prenom">Prenom</label><br>
+                    <input type="text" name="prenom" id="prenom" required="" autofocus=""><br>
+                <label for="nom">Nom</label><br>
+                    <input type="text" name="nom" id="nom" required=""><br>
+                <label for="age">Age</label><br>
+                    <input type="number" name="age" id="age" required=""><br>
+                <label for="numero">Numero</label><br>
+                    <input onblur="//validerNom(this.value)" type="tel" name="numero" id="numero" required=""><br>
+                <label for="adresse">Adresse</label><br>
+                    <input type="text" name="adresse" id="adresse" required=""><br>
+                <label for="dateAjout">Date Ajout</label><br>
+                    <input class="color" type="date" name="date_ajout" disabled="disabled" value="<?php echo $date= date('Y-m-d');?>"><br>
             </div>
             <div class="col">
                 <label>Objet de la consultation </label><br>
                 <textarea name="objet_consultation" rows="5" cols="25%" required=""></textarea><br>
-                <label>Medecin specialiste</label>
-                <select class="color" name="medecin_rattache">
-                    <optgroup label="Generaliste">
-                        <option value="Generaliste">Generaliste</option>
-                    </optgroup>              
-                    <optgroup label="specialiste">
-                        <option value="Dermatologue">Dermatologue</option>
-                        <option value="Hematologue">Hematologue</option>
-                        <option value="Psychiatre">Psychiatre</option>
-                        <option value="O.R.L">O.R.L</option>
-                        <option value="Ophtalmologue">Ophtalmologue</option>
-                        <option value="Obstétrique et gynécologue">Obstétrique et gynécologue</option>
-                        <option value="Pediatre">Pediatre</option>
-                        <option value="Urologue">Urologue</option>
-                    </optgroup>
-                    <optgroup label="chirugien specialiste">
-                        <option value="Chirurgie cardiaque">Chirurgie cardiaque</option>
-                        <option value="Chirurgie colorectale">Chirurgie colorectale</option>
-                        <option value="Chirurgie generale">Chirurgie générale</option>
-                        <option value="Chirurgie générale oncologique">Chirurgie générale oncologique</option>
-                        <option value="Chirurgie générale pédiatrique">Chirurgie générale pédiatrique</option>
-                        <option value="Chirurgie orthopédique">Chirurgie orthopédique</option>
-                        <option value="Chirurgie plastique">Chirurgie plastique</option>
-                        <option value="Chirurgie thoracique">Chirurgie thoracique</option>
-                        <option value="Chirurgie vasculaire">Chirurgie vasculaire</option>
 
-                    </optgroup>
-                </select><br><br>
+                 <?php
+                    // recuperation des differentes specialites dans la bd
+                    require '../connexion.php';
+
+                    $recupe = $bdd->query('SELECT * FROM specialite');
+                    echo '<label>Specialite </label><br><select class="color" name="specialite>';
+                    while ($ligne = $recupe->fetch()) 
+                    {
+                        echo '<option value="'.$ligne['id_specialite'].' "> '.$ligne['nom_specialite'].'</option>';
+
+                    }
+                    echo '</select><br>';
+
+                ?>
+
+         
 
             </div>
 
@@ -182,8 +134,15 @@
                <label for="Taille">Taille</label><br><input type="number" name="taille"><br>
                <label for="tension">Tension</label><br><input type="text" name="tension"><br>
 
-               <label>Date RV</label><br><input class="color" type="date" name="date_rv" value="<?php ?>"><br>
-               <label>Heure RV</label><br><input class="color" type="time" name="heure_rv" disabled="disabled" value="<?php ?>"><br><br>
+               <?php
+                    //selection de la date et heure du RV selon la specialite choisie
+               //liste deroulante?
+                    $recupespecialite = $bdd->query('SELECT * FROM specialite');
+ 
+               ?>
+
+               <label>Date RV disponible</label><br><input class="color" type="date" name="date_rv" disabled="disabled" value="<?php //echo $datedispo ?>"><br>
+               <label>Heure RV</label><br><input class="color" type="time" name="heure_rv" disabled="disabled" value="<?php //echo $heuredispo ?>"><br><br>
             </div>
 
         </div>
@@ -191,7 +150,24 @@
         <div id="validation">
                 <input type="submit" name="envoyer" value="ENREGISTRER"> <br>
                 <input type="reset" name="annuler" value="ANNULER"><br><br>        
-        </div>            
+        </div> 
+<details><summary>Apercu</summary>
+         <div id="apercu">
+            
+            <?php
+                echo ' PRENOM : '. $prenom . '<br>'.
+                     ' NOM : '. $nom . '<br>' .
+                     ' AGE : '. $age . '<br>' .
+                     ' OBJET CONSULTATION : '. $objetConsultation . '<br>' .
+                     ' MEDECIN SPECIALISTE : ' . $medecinRattache . '<br>' .
+                     ' DATE RENDEZ_VOUS : ' . $dateRv . '<br>' .
+                     ' HEURE: '. $heureRv . '<br>';
+
+            ?>
+            <button>OK</button>
+
+        </div>  
+</details>         
             </form>  
 
         <div class="deconnexion">

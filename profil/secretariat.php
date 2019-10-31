@@ -1,5 +1,11 @@
 <?php 
-session_start(); 
+session_start();
+if(empty($_SESSION['utilisateur']))
+{
+    // Si inexistante ou nulle, on redirige vers la page de connexion
+    header('Location: ../index.php');
+    exit();
+}
  ?>
 <!DOCTYPE html>
 </html>
@@ -43,10 +49,10 @@ session_start();
                   //}
                 </script>
                 <button><a href="../listeMPS/listepatient.php">LISTE PATIENT </a></button>
-                <div id="wikitext"></div>
+  
               </div>
               <div class="bouton1">
-                <button><a href="../index.php">DECONNEXION</a></button>
+                <button><a href="../deconnexion.php">DECONNEXION</a></button>
              </div>
              <script type="text/javascript">
                  // var texte;

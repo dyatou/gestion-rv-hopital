@@ -54,11 +54,11 @@ while ($ligne = $reponse->fetch())
     <?php echo '<font color="white" size="3">' . $ligne['numero'] ;?>
 </td>
 <td>
-    <button><a onclick="alert('voulez vous continuer');" name="dossier" href= "dossierpatient.php?dossier=<?php echo $ligne['id_patient']; ?>" style="color: orange; text-decoration:none;">dossier</a></button>
+    <button><a name="dossier" href= "dossierpatient.php?dossier=<?php echo $ligne['id_patient']; ?>" style="color: orange; text-decoration:none;">dossier</a></button>
  
     <button><a href= "../modifMPS/modifpatient.php?modifier=<?php echo $ligne['id_patient']; ?>" style="color: white; text-decoration:none;">modifier</a></button>
 
-    <button><a href= "../listeMPS/listepatient.php?supprimer=<?php echo $ligne['id_patient']; ?>" style="color: red; text-decoration:none;">supprimer</a></button>
+    <button><a onclick="return confirm('voulez vous supprimer le patient');"  href= "../supMPS/suppatient.php?supprimer=<?php echo $ligne['id_patient']; ?>" style="color: red; text-decoration:none;">supprimer</a></button>
 </td>
 </tr>
 
